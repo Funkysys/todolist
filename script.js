@@ -1,50 +1,71 @@
 const btn = document.querySelector('.create')
 const container = document.querySelector('.container')
 
-
-function pressEnter(event, button) {
-    let code = event.which || event.keyCode; //Selon le navigateur c'est which ou keyCode
-    if (code == 13) { //le code de la touche Enter
-        button.addEventListener('submit', (e) => e.preventDefault)
-    }
+function getUrlParam() {
+    var url = window.location.href;
+    var param = url.split('?')[1];
+    var constructeur = new URLSearchParams(param);
+    return constructeur
 }
 
-
-function formSubmited(form) {
-
+function listFillling(form, input, actionContainer, listName, div) {
+    form.addEventListener('submit', (e )=>{
+    e.preventDefault()
+    console.log(input.value);
+    actionContainer.innerHTML = `<p>${input.value}</p>`
+    createForm(listName, div)
+    })
+    console.log(div);
 }
 
-function createList() {
-    const listName = prompt('Donnez un nom à votre nouvelle liste')
-    console.log(listName);
-    const div = document.createElement('div')
-    div.classList.add('listCard')
+function createForm(listName, div) {
     let form = document.createElement('form')
     form.name = listName;
-    form.method = 'POST';
-    form.action = '#';
-    form.id = listName;
+    form.method = 'GET';
+    form.id = `${listName}`;
+    // création de la div contenant label input
     const actionContainer = document.createElement('div')
     actionContainer.classList.add('actionContainer')
     let label = document.createElement('label');
-    label.name = listName;
+    label.for = `${listName}`;
     label.innerText = listName + ' : \n'
     let input = document.createElement('input');
     input.type = 'TEXT';
-    input.name = 'myInput';
+    input.name = `${listName}`
     input.value = 'votre tache à réaliser';
-    let button = document.createElement('button');
+    let button = document.createElement('input');
+    button.type = 'submit'
+    button.value = 'créer'
     button.class = 'btn submit'
-    button.innerText = 'Créer'
+    // attache des éléments les un aux autres
+    // label, input, button => div action
     actionContainer.appendChild(label)
     actionContainer.append(input)
     actionContainer.append(button)
+    // action => form
     form.appendChild(actionContainer)
+    // form => div
     div.appendChild(form)
+    // div => container
     container.appendChild(div)
-    pressEnter(form)
+    // appel de fonction au submit du form
+    listFillling(form, input, actionContainer, listName, div);
 }
 
-btn.addEventListener('click', () => {
-    createList()
-})
+function createCard(listName) {
+    // création de la div listCard
+    const div = document.createElement('div')
+    div.classList.add('listCard')
+    // création Form
+    
+    createForm(listName, div)
+}
+
+function createList() {
+    //récupération du nom de la liste
+    const listName = prompt('Donnez un nom à votre nouvelle liste')
+    // console.log(listName);
+    createCard(listName)
+}
+
+btn.addEventListener('click', () => createList())
