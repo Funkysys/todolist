@@ -23,11 +23,12 @@ function removeButtonCreation(parent, parent2) {
     })
 }
 
-function listFillling(form, input, actionContainer, listName, div) {
+function listFillling(form, input, actionContainer, div) {
     form.addEventListener('submit', (e )=>{
     e.preventDefault()
     const p = document.createElement('p')
     p.innerText = `${input.value}`
+    input.value = ''
     actionContainer.appendChild(p)
     removeButtonCreation(actionContainer, p)
     })
