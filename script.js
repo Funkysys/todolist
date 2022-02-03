@@ -1,6 +1,7 @@
 const btn = document.querySelector('.create')
 const container = document.querySelector('.container')
 
+
 function getUrlParam() {
     var url = window.location.href;
     var param = url.split('?')[1];
@@ -8,31 +9,47 @@ function getUrlParam() {
     return constructeur
 }
 
+function changeStatus(parent) {
+    const standingButton = document.createElement('button')
+    standingButton.classList.add('btn')
+    standingButton.innerText = '"en cours"'
+    standingButton.style.backgroundColor = 'lightgoldenrodyellow'
+    parent.appendChild(standingButton)
+    
+    standingButton.addEventListener('click', () => {
+        if (parent.style.backgroundColor === "lightgoldenrodyellow") {
+            parent.style.backgroundColor = "rgb(166, 222, 230)"
+        } else {
+            parent.style.backgroundColor = 'lightgoldenrodyellow'
+        } 
+    })
+}
+
 function removeButtonCreation(parent, parent2) { 
     const removeButton = document.createElement('button')
     removeButton.classList.add('btn')
-    parent.appendChild(removeButton)
+    removeButton.style.backgroundColor = '#ffb8b8'
     if (parent2) {
+        parent2.appendChild(removeButton)
         removeButton.innerText = 'supprimer l\'action'
         removeButton.classList.add('removeAction')
     } else {
+        parent.appendChild(removeButton)
         removeButton.innerText = 'supprimer la liste'
         removeButton.classList.add('removeList')
     }
     removeButton.addEventListener('click',() => {
         if (parent2) {
             parent2.remove()
-            removeButton.innerText = 'supprimer l\'action'
         } else {
             parent.remove()
-            removeButton.innerText = 'supprimer la liste'
         }
         removeButton.remove()
     })
     return removeButton
 }
 
-function listFillling(form, input, actionContainer, div) {
+function listFillling(form, input, actionContainer) {
     form.addEventListener('submit', (e )=>{
     e.preventDefault()
     if(input.value !== null && input.value !== ''){
@@ -45,6 +62,7 @@ function listFillling(form, input, actionContainer, div) {
     input.placeholder = 'votre prochaine tache à réaliser';
     actionContainer.appendChild(p)
     pContainer.appendChild(p)
+    changeStatus(pContainer)
     removeButtonCreation(actionContainer, pContainer)
     } else {
         input.placeholder = 'veuillez rentrer une action'
@@ -96,7 +114,7 @@ function createForm(listName, div) {
     // div => container
     container.appendChild(div)
     // appel de fonction au submit du form
-    listFillling(form, input, actionContainer, listName, div);
+    listFillling(form, input, actionContainer);
 }
 
 function createCard(listName) {
