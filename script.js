@@ -8,23 +8,28 @@ function getUrlParam() {
     return constructeur
 }
 
-function addRemove(p) {
-    
+function removeButtonCreation(parent, parent2) { 
+    const removeButton = document.createElement('button')
+    removeButton.classList.add('btn')
+    removeButton.innerText = 'supprimer l\'action'
+    parent.appendChild(removeButton)
+    removeButton.addEventListener('click',() => {
+        if (parent2) {
+            parent2.remove()
+        } else {
+            parent.remove()
+        }
+        removeButton.remove()
+    })
 }
+
 function listFillling(form, input, actionContainer, listName, div) {
     form.addEventListener('submit', (e )=>{
     e.preventDefault()
     const p = document.createElement('p')
     p.innerText = `${input.value}`
     actionContainer.appendChild(p)
-    const removeButton = document.createElement('button')
-    removeButton.classList.add('btn')
-    removeButton.innerText = 'supprimer l\'action'
-    actionContainer.appendChild(removeButton)
-    removeButton.addEventListener('click',() => {
-        p.remove()
-        removeButton.remove()
-    })
+    removeButtonCreation(actionContainer, p)
     })
     console.log(div);
 }
@@ -67,8 +72,8 @@ function createCard(listName) {
     // création de la div listCard
     const div = document.createElement('div')
     div.classList.add('listCard')
+    removeButtonCreation(div)
     // création Form
-    
     createForm(listName, div)
 }
 
