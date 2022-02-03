@@ -8,12 +8,23 @@ function getUrlParam() {
     return constructeur
 }
 
+function addRemove(p) {
+    
+}
 function listFillling(form, input, actionContainer, listName, div) {
     form.addEventListener('submit', (e )=>{
     e.preventDefault()
-    console.log(input.value);
-    actionContainer.innerHTML = `<p>${input.value}</p>`
-    createForm(listName, div)
+    const p = document.createElement('p')
+    p.innerText = `${input.value}`
+    actionContainer.appendChild(p)
+    const removeButton = document.createElement('button')
+    removeButton.classList.add('btn')
+    removeButton.innerText = 'supprimer l\'action'
+    actionContainer.appendChild(removeButton)
+    removeButton.addEventListener('click',() => {
+        p.remove()
+        removeButton.remove()
+    })
     })
     console.log(div);
 }
